@@ -1,0 +1,20 @@
+# Base system
+alpine-base
+agetty
+util-linux
+
+# Daemons and services
+dhcpcd
+
+# Filesystems and devices
+eudev
+dosfstools
+ntfs-3g
+# dislocker dependencies
+ruby-libs
+mbedtls
+fuse
+
+# Tools
+openssh
+vis
