@@ -6,7 +6,7 @@ e.g. by running the scripts in the (corresponding linux directory](../linux).
 The `download.sh` script fetches the required components from public sources:
  - `shimx64.efi` signed Debian shim
  - `grubx64.efi` signed Debian GRUB boot loader
- - TODO: `bootmgfw.efi` vulnerable Windows boot loader
+ - TODO: `bootmgfw.efi` vulnerable Windows boot manager
 
 The `start-smb.sh` script starts an impacket based SMB server providing the 
 [`create-bcd.bat`](./smb/create-bcd.bat) script to generate a device specific
