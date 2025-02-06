@@ -5,7 +5,7 @@ existed since October 2005, was discovered in August 2022 and publicly [disclose
 Rairii](https://mastodon.social/@Rairii@haqueers.com/109817927808486332) after which it was assigned
 [CVE-2023-21563](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-21563).
 
-The full attach chain was demonstrated by Thomas in his [38C3 talk](https://events.ccc.de/congress/2024/hub/en/event/windows-bitlocker-screwed-without-a-screwdriver/)
+The full attack chain was demonstrated by Thomas in his [38C3 talk](https://events.ccc.de/congress/2024/hub/en/event/windows-bitlocker-screwed-without-a-screwdriver/)
 which was followed up by two blog posts:
 
 - [Windows BitLocker -- Screwed without a Screwdriver](https://neodyme.io/en/blog/bitlocker_screwed_without_a_screwdriver/)
@@ -19,7 +19,7 @@ written by [@notselwyn](https://twitter.com/notselwyn).
 Parallel to this work [Andreas Grasser](https://github.com/andigandhi/bitpixie) also 
 attempted to reproduce the original research, ending up with a very similar approach.
 
-## Pre-Requirements
+## Prerequisites
 
 BitLocker must be configured without pre-boot authentication also sometimes referred 
 to as unattended/transparent mode i.e. without a PIN or a key file.
@@ -153,7 +153,15 @@ The device should now reboot over PXE, fail to fully load the Windows boot confi
 > 
 > This typically means something did not work as expected.
 
-Login with the `root` user, no password is needed. Follow the instructions printed in the logon message. Replace `XXX` with device file representing your encrypted BitLocker volume:
+Login with the `root` user, no password is needed. Follow the instructions printed in the logon message.
+Replace `XYZ` with device file representing your encrypted BitLocker volume:
 ```
 exploit && ./mount.sh /dev/XYZ && ls mnt
 ```
+
+## Success Stories
+
+Windows 11 devices which were successfully exploited, after manually enabling the TCP stack in the UEFI settings:
+
+- Lenovo ThinkPad T460s 20FAA01100
+- Lenovo ThinkPad X280 20KES6C42B
