@@ -25,4 +25,4 @@ wget "https://snapshot.debian.org/archive/debian/20240716T023930Z/pool/main/g/gr
 dpkg-deb -x grub.deb grub
 cp grub/usr/lib/grub/x86_64-efi-signed/grubnetx64.efi.signed /mnt/tftp/grubx64.efi
 
-# TODO: Fetching vulnerable Windows boot loader
+# TODO: Fetching vulnerable Windows boot manager
