@@ -2,7 +2,8 @@
 set -e
 
 name="bitpixie"
-images="images"
+scriptpath="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+images="$scriptpath/images"
 
 # Images are stored in the images/ folder, named like $name.2024123101.* where
 # the last two digits are an increasing counter.
@@ -40,8 +41,8 @@ case "$1" in
             image=$(next_image)
         fi
         echo "Building image $image"
-        docker run --privileged --platform linux/amd64 --rm -v "$PWD":/mnt -w /root \
-            alpine:3.20.3 "/mnt/$name-build.sh" "/mnt/$images/$image"
+        docker run --privileged --platform linux/amd64 --rm -v "${scriptpath}":/mnt -w /root \
+            alpine:3.20.3 "/mnt/$name-build.sh" "/mnt/images/$image"
         ;;
     qemu)
         image=$(latest_image)
@@ -55,9 +56,9 @@ case "$1" in
         ;;
     deploy)
         image=$(latest_image)
-        echo "Deploying image $image to ../pxe/tftp"
-        cp "$images/$image.kernel" "../pxe/tftp/linux"
-        cp "$images/$image.initramfs" "../pxe/tftp/alpine-initrd.xz"
+        echo "Deploying image $image to $scriptpath/../../pxe/tftp"
+        cp "$images/$image.kernel" "$scriptpath/../../pxe/tftp/linux"
+        cp "$images/$image.initramfs" "$scriptpath/../../pxe/tftp/alpine-initrd.xz"
         ;;
     "")
         echo "Usage: $0 <subcommand>"
