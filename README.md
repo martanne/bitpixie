@@ -138,7 +138,7 @@ Let Windows boot normally, on the logon screen hold down the *Shift*
 key and select the *Restart* option from the power menu.
 
 Windows will reboot into a recovery mode. Select *Troubleshoot > Advanced
-Option > Command line*. If desired, select *Change keyboard layout*. When
+Option > Command Prompt*. If desired, select *Change keyboard layout*. When
 prompted for BitLocker recovery key, select *Skip this drive*.
 
 You should now be in a command prompt within the recovery environment.
@@ -180,7 +180,8 @@ specified with the drive letter:
 > [!note]
 > The device specific BCD file needs to be served as `Boot\BCD` via PXE.
 
-Exit the command line and chose *Use a device* then select the option indicating PXE boot.
+Exit the command line and chose *Use a device* then select the option
+indicating PXE boot (e.g. PCI LAN).
 
 ### Boot into Linux Environment
 
@@ -215,7 +216,8 @@ Upload the generated BCD files to the specified share:
 .\exploit-winpe1.bat S:
 ```
 
-Exit the command line and chose *Use a device* then select the option indicating PXE boot.
+Exit the command line and chose *Use a device* then select the option
+indicating PXE boot (e.g. PCI LAN).
 
 ### Boot into Windows Boot Manager
 
@@ -316,7 +318,7 @@ you can run the following command to hopefully print the BitLocker recovery
 password in human readable form:
 
 ```
-dislocker-metadata.exe \\.\PhysicalDrive0 -o 1234 -K vmk.dat
+dislocker-metadata.exe -V \\.\PhysicalDrive0 -o 1234 -K vmk.dat
 ```
 
 > [!warning]
