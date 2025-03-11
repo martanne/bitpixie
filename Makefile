@@ -36,7 +36,7 @@ winpe: ${BOOT_SDI} ${BOOT_WIM} ${DUMPIT_EXE} ${SEARCH_VMK_EXE} ${DISLOCKER_METAD
 
 ${BOOT_SDI} ${BOOT_WIM}:
 	@echo "Preparing Windows boot.{sdi,wim} files..."
-	docker run --privileged --platform linux/amd64 --rm -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
+	docker run --platform linux/amd64 --rm -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/download-winpe.sh"
 
 ${DUMPIT_EXE}:

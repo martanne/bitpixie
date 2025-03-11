@@ -5,7 +5,7 @@ __() { printf "\n\033[1;32m* %s [%s]\033[0m\n" "$1" "$(date -u +"%Y-%m-%dT%H:%M:
 
 __ "Installing required tools"
 
-apk add bash curl uuidgen qemu-img jq wimlib
+apk add bash curl uuidgen qemu-img jq wimlib 7zip
 
 __ "Fetching Quickemu"
 
@@ -21,13 +21,12 @@ __ "Fetching Windows 11"
 
 __ "Extracting artifacts from Windows ISO"
 
-mkdir iso
-mount -o loop,ro Win11_24H2_EnglishInternational_x64.iso iso
-cp iso/sources/boot.wim .
+7z e Win11_24H2_EnglishInternational_x64.iso sources/boot.wim boot/boot.sdi
+
 wiminfo boot.wim 1 --boot
 wiminfo boot.wim
 
 __ "Copying artifacts to TFTP directory"
 
 cp boot.wim /mnt/tftp/Boot
-cp iso/boot/boot.sdi /mnt/tftp/Boot
+cp boot.sdi /mnt/tftp/Boot
