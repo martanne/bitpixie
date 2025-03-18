@@ -13,7 +13,7 @@ which was followed up by two blog posts:
 
 This repository reproduces the original research performed by Thomas based on his talk and blog posts.
 The used Linux kernel exploit ([blog](https://pwning.tech/nftables/),
-[PoC](https://github.com/Notselwyn/CVE-2024-1086])) for CVE-2024-1086 was 
+[PoC](https://github.com/Notselwyn/CVE-2024-1086)) for CVE-2024-1086 was
 written by [@notselwyn](https://twitter.com/notselwyn).
 
 Parallel to this work [Andreas Grasser](https://github.com/andigandhi/bitpixie) also 
@@ -204,6 +204,10 @@ exploit && ./mount.sh /dev/XYZ && ls mnt
 
 ### WinPE-based Exploitation
 
+> [!warning]
+> The WinPE-based approach seems to be less reliable than its Linux-based
+> counterpart.
+
 For the WinPE-based exploitation strategy, two BCD files will be needed.
 
 ```
@@ -261,8 +265,8 @@ which initiates the loading of WinPE from a ramdisk.
 > ```
 
 > [!note]
-> I automated these steps using a GDB script. However, the resulting setup was somehow
-> less reliable than performing the changes manually.
+> I automated these steps using a GDB script in [`start-pxe-winpe.sh`](./pxe/start-pxe-winpe.sh).
+> However, this might be less reliable than performing the changes manually.
 
 ### Boot into WinPE
 
@@ -332,8 +336,9 @@ manage-bde -unlock B: -RecoveryPassword 123456-789012-345678-901234-567890-12345
 
 > [!warning]
 > Unfortunately, the running WinPE instance does not have a working
-> BitLocker setup. I built my own, but then the key would no longer
-> be in memory. Needs more investigation.
+> BitLocker setup. It is [possible to use a customized version](./winpe/Customize-WinPE.ps1),
+> but this is currently not integrated in the automated build process and
+> successful exploitation sofar used the default image.
 >
 > At this point I would suggest to once more boot into the native recovery
 > environment where you should be able to unlock the disk.

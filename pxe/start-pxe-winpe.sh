@@ -5,7 +5,7 @@
 scriptpath="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 interface=$1
 
-#sudo ip a add 10.13.37.100/24 dev $interface
+sudo ip a add 10.13.37.100/24 dev $interface
 
 cat <<'EOF' > "$scriptpath/dnsmasq.winpe.gdb"
 set breakpoint pending on
