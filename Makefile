@@ -13,6 +13,7 @@ GRUB = ${TFTP}/grubx64.efi
 BOOT_SDI = ${TFTP}/Boot/boot.sdi
 BOOT_WIM = ${TFTP}/Boot/boot.wim
 DUMPIT_EXE = ${SMB}/winpe/DumpIt.exe
+WINPMEM_EXE = ${SMB}/winpe/winpmem.exe
 SEARCH_VMK_EXE = ${SMB}/winpe/search-vmk.exe
 DISLOCKER_METADATA_EXE = ${SMB}/winpe/dislocker-metadata.exe
 
@@ -31,13 +32,18 @@ ${SHIM} ${GRUB}:
 	docker run --platform linux/amd64 --rm -v "${PWD}/linux/bootloader:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/download.sh"
 
-winpe: ${BOOT_SDI} ${BOOT_WIM} ${DUMPIT_EXE} ${SEARCH_VMK_EXE} ${DISLOCKER_METADATA_EXE}
+winpe: ${BOOT_SDI} ${BOOT_WIM} ${WINPMEM_EXE} ${SEARCH_VMK_EXE} ${DISLOCKER_METADATA_EXE}
 	@echo "Building WinPE based bitpixie exploitation components..."
 
 ${BOOT_SDI} ${BOOT_WIM}:
 	@echo "Preparing Windows boot.{sdi,wim} files..."
 	docker run --platform linux/amd64 --rm -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/download-winpe.sh"
+
+${WINPMEM_EXE}:
+	@echo "Bulding $@..."
+	docker run --platform linux/amd64 --rm -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
+                alpine:3.20.3 "/build/build-winpmem.sh"
 
 ${DUMPIT_EXE}:
 	@echo "Please download Magnet DumpIt for Windows"
@@ -57,6 +63,6 @@ ${DISLOCKER_METADATA_EXE}:
 
 clean:
 	@rm -f "${SHIM}" "${GRUB}" "${KERNEL}" "${INITRAMFS}"
-	@rm -f "${BOOT_SDI}" "${BOOT_WIM}" "${SEARCH_VMK_EXE}" "${DISLOCKER_METADATA_EXE}"
+	@rm -f "${BOOT_SDI}" "${BOOT_WIM}" "${WINPMEM_EXE}" "${SEARCH_VMK_EXE}" "${DISLOCKER_METADATA_EXE}"
 
 .PHONY: all linux winpe clean
