@@ -24,7 +24,7 @@ commands 2
   print "Preparing stage 2"
   disable 2
   # would restore initial state, but might interfere, restart script instead
-  #enable 1
+  enable 1
   shell ln -sf BCD_winpe2 smb/BCD
   continue
 end

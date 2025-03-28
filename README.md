@@ -2,8 +2,8 @@
 
 The [bitpixie vulnerability](https://github.com/Wack0/bitlocker-attacks?tab=readme-ov-file#bitpixie)
 existed since October 2005, was discovered in August 2022 and publicly [disclosed in February 2023 by
-Rairii](https://mastodon.social/@Rairii@haqueers.com/109817927808486332) after which it was assigned
-[CVE-2023-21563](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-21563).
+Rairii](https://web.archive.org/web/20230501000759/https://haqueers.com/@Rairii/109817927668949732)
+after which it was assigned [CVE-2023-21563](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-21563).
 
 The full attack chain was demonstrated by Thomas in his [38C3 talk](https://events.ccc.de/congress/2024/hub/en/event/windows-bitlocker-screwed-without-a-screwdriver/)
 which was followed up by two blog posts:
@@ -92,6 +92,7 @@ also need:
 
  - dnsmasq
  - impacket's smbserver.py
+ - GDB (for the WinPE-based attack strategy)
 
 ### Linux Initramfs Generation
 
@@ -123,10 +124,14 @@ cd pxe && ./start-smb.sh
 
 ### PXE Server
 
-Start the PXE server serving the network boot images:
-
+Start the PXE server serving the network boot images. For Linux:
 ```
-cd pxe && ./start-pxe.sh eth0
+cd pxe && ./start-pxe-linux.sh eth0
+```
+
+WinPE:
+```
+cd pxe && ./start-pxe-winpe.sh eth0
 ```
 
 ## Attack
@@ -222,52 +227,10 @@ Upload the generated BCD files to the specified share:
 Exit the command line and chose *Use a device* then select the option
 indicating PXE boot (e.g. PCI LAN).
 
-### Boot into Windows Boot Manager
-
-The device should now reboot and PXE-load the first instance of the Windows
-Boot Manager (`bootmgfw.efi`). The provided configuration deliberately points
-to a missing second stage boot manager (`bootmgfw-stage2.efi`).
-
-You will therefore encounter an error:
-
- - File: `\`
- - Status: 0xc00000ba
- - Info: The application or operating system couldn't be loaded because a required
-   file is missing or contains errors.
-
-At this point you should switch out the BCD file served by dnsmasq from
-`pxe/tftp/Boot/BCD`. One way to do this is to create a symlink such that
-`pxe/smb/BCD` no longer points to `BCD_winpe1`, but now refers to the
-second stage `BCD_winpe2`.
-
-```
-ln -sf BCD_winpe2 pxe/smb/BCD
-```
-
-Addtionally, you will have to make sure that the second stage boot manager causing
-the original error can now be found.
-
-```
-ln -sf bootmgfw.efi pxe/tftp/bootmgfw-stage2.efi
-```
-
-Once these changes are in place, press *Enter* to view the *OS Selection*.
-Chose the option *softreboot*. This should now fallback to the second stage BCD
-which initiates the loading of WinPE from a ramdisk.
-
-> [!note]
-> In case of an error, revert the changes, i.e. make sure `BCD_winpe1` is served
-> and the second stage boot manager is not found, then retry the procedure.
-> ```
-> ln -sf BCD_winpe1 pxe/smb/BCD
-> rm pxe/tftp/bootmgfw-stage2.efi
-> ```
-
-> [!note]
-> I automated these steps using a GDB script in [`start-pxe-winpe.sh`](./pxe/start-pxe-winpe.sh).
-> However, this might be less reliable than performing the changes manually.
-
 ### Boot into WinPE
+
+The device should now reboot over PXE, fail to fully load the Windows
+boot configuration then fall back to the served WinPE system.
 
 Reconnect the SMB share, download the attack script and start the second
 part of the exploitation:
