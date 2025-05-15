@@ -305,3 +305,8 @@ Windows 11 devices which were successfully exploited, after manually enabling th
 
 - Lenovo ThinkPad T460s 20FAA01100
 - Lenovo ThinkPad X280 20KES6C42B
+- Lenovo ThinkPad X1 Carbon Gen 9 20XW008FMZ
+- Lenovo Thinkpad X1 Carbon Gen 11 21HMCTO1WW
+
+> [!note]
+> This is a non-exhaustive list.
