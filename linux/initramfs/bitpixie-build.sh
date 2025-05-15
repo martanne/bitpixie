@@ -39,7 +39,7 @@ basename "$1" > "$ROOTFS_DEST/etc/bitpixie-release"
 mkdir -p "$ROOTFS_DEST/etc/mkinitfs"
 echo "disable_trigger=yes" > "$ROOTFS_DEST/etc/mkinitfs/mkinitfs.conf"
 
-export ALPINE_BRANCH=edge
+export ALPINE_BRANCH=3.20
 export SCRIPT_CHROOT=yes
 export FS_SKEL_DIR=/mnt/root
 export FS_SKEL_CHOWN=root:root
