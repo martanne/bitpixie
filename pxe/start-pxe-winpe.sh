@@ -23,8 +23,8 @@ condition 2 $_regex(file, ".*/bootmgfw-stage2\\.efi$")
 commands 2
   print "Preparing stage 2"
   disable 2
-  # would restore initial state, but might interfere, restart script instead
   enable 1
+  shell ln -sf bootmgfw.efi tftp/bootmgfw-stage2.efi
   shell ln -sf BCD_winpe2 smb/BCD
   continue
 end
