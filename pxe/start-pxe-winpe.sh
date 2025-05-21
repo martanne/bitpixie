@@ -7,11 +7,28 @@ interface=$1
 
 sudo ip a add 10.13.37.100/24 dev $interface
 
-cat <<'EOF' > "$scriptpath/dnsmasq.winpe.gdb"
+arch=$(uname -m)
+reg=""
+
+case "$arch" in
+    x86_64)
+        reg="\$rdi"
+        ;;
+    aarch64)
+        reg="\$x0"
+        ;;
+    *)
+        echo "WARNING: Unsupported architecture: $arch"
+        echo "Make sure symbols are available."
+        reg="file"
+        ;;
+esac
+
+cat <<EOF > "$scriptpath/dnsmasq.winpe.gdb"
 set breakpoint pending on
 break open
 break open
-condition 1 $_regex(file, ".*/bootmgfw\\.efi$")
+condition 1 \$_regex((char*)$reg, ".*/bootmgfw\\.efi$")
 commands 1
   print "Preparing stage 1"
   disable 1
@@ -19,7 +36,7 @@ commands 1
   shell ln -sf BCD_winpe1 smb/BCD
   continue
 end
-condition 2 $_regex(file, ".*/bootmgfw-stage2\\.efi$")
+condition 2 \$_regex((char*)$reg, ".*/bootmgfw-stage2\\.efi$")
 commands 2
   print "Preparing stage 2"
   disable 2

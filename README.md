@@ -92,7 +92,7 @@ also need:
 
  - dnsmasq
  - impacket's smbserver.py
- - GDB (for the WinPE-based attack strategy)
+ - GDB with Python support (for the WinPE-based attack strategy)
 
 ### Linux Initramfs Generation
 
