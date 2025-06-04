@@ -260,7 +260,7 @@ c:\> diskpart
 diskpart> list disk
 diskpart> select disk 0
 diskpart> detail disk
-diskpart> list partitions
+diskpart> list partition
 diskpart> select partition 3
 diskpart> detail partition
 ...
@@ -278,7 +278,7 @@ you can run the following command to hopefully print the BitLocker recovery
 password in human readable form:
 
 ```
-dislocker-metadata.exe -V \\.\PhysicalDrive0 -o 1234 -K vmk.dat
+dislocker-metadata.exe -V \\.\PhysicalDrive0 -K vmk-*.dat -o 1234
 ```
 
 > [!warning]
