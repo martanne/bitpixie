@@ -266,7 +266,7 @@ diskpart> detail partition
 ...
 Offset in Bytes: 1234
 ...
-diskpart> assign letter=B
+diskpart> exit
 
 ```
 
