@@ -83,7 +83,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE=../mingw-w64-x86_64.cmake -DCMAKE_INSTALL_PREFIX=/t
 
 x86_64-w64-mingw32-gcc -I./include -I${DESTDIR}/include -DPROGNAME=\"dislocker-metadata\" \
 	-DAUTHOR=\"Romain\ Coltel\" -DVERSION=\"0.7.2-unsupported\" -D__OS=\"Windows\" \
-	-D__ARCH=\"x86_64\" src/dislocker-metadata.c src/metadata/*.c src/common.c \
+	-D__ARCH=\"x86_64\" -D_FILE_OFFSET_BITS=64 src/dislocker-metadata.c src/metadata/*.c src/common.c \
 	src/ntfs/clock.c src/ntfs/encoding.c src/encryption/crc32.c src/encryption/aes-xts.c \
 	src/encryption/decrypt.c src/encryption/diffuser.c src/xstd/xstdio.c src/xstd/xstdlib.c \
 	-L${DESTDIR}/lib -lmbedtls -lmbedcrypto -lmbedx509 -o dislocker-metadata
