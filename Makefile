@@ -29,7 +29,7 @@ ${INITRAMFS} ${KERNEL}:
 
 ${SHIM} ${GRUB}:
 	@echo "Preparing shim and GRUB..."
-	docker run --platform linux/amd64 --rm -v "${PWD}/linux/bootloader:/build" -v "${PXE}":/mnt -w /root \
+	docker run --platform linux/amd64 --rm -v "${CURDIR}/linux/bootloader:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/download.sh"
 
 winpe: ${BOOT_SDI} ${BOOT_WIM} ${WINPMEM_EXE} ${SEARCH_VMK_EXE} ${DISLOCKER_METADATA_EXE}
@@ -37,12 +37,12 @@ winpe: ${BOOT_SDI} ${BOOT_WIM} ${WINPMEM_EXE} ${SEARCH_VMK_EXE} ${DISLOCKER_META
 
 ${BOOT_SDI} ${BOOT_WIM}:
 	@echo "Preparing Windows boot.{sdi,wim} files..."
-	docker run --platform linux/amd64 --rm -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
+	docker run --platform linux/amd64 --rm -v "${CURDIR}/winpe:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/download-winpe.sh"
 
 ${WINPMEM_EXE}:
 	@echo "Bulding $@..."
-	docker run --platform linux/amd64 --rm -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
+	docker run --platform linux/amd64 --rm -v "${CURDIR}/winpe:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/build-winpmem.sh"
 
 ${DUMPIT_EXE}:
@@ -53,12 +53,12 @@ ${DUMPIT_EXE}:
 
 ${SEARCH_VMK_EXE}:
 	@echo "Bulding $@..."
-	docker run --platform linux/amd64 --rm -v "${PWD}/search-vmk:/src" -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
+	docker run --platform linux/amd64 --rm -v "${CURDIR}/search-vmk:/src" -v "${CURDIR}/winpe:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/build-search-vmk.sh"
 
 ${DISLOCKER_METADATA_EXE}:
 	@echo "Bulding $@..."
-	docker run --platform linux/amd64 --rm -v "${PWD}/winpe:/build" -v "${PXE}":/mnt -w /root \
+	docker run --platform linux/amd64 --rm -v "${CURDIR}/winpe:/build" -v "${PXE}":/mnt -w /root \
                 alpine:3.20.3 "/build/build-dislocker-metadata.sh"
 
 clean:
