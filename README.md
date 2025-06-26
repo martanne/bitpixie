@@ -287,7 +287,7 @@ dislocker-metadata.exe -V \\.\PhysicalDrive0 -K vmk-*.dat -o 1234
 Using the recovery password the encrypted volume can be unlocked:
 
 ```
-manage-bde -unlock B: -RecoveryPassword 123456-789012-345678-901234-567890-123456
+manage-bde -unlock C: -RecoveryPassword 123456-789012-345678-901234-567890-123456
 ```
 
 > [!warning]
