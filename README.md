@@ -153,7 +153,7 @@ wpeutil initializenetwork
 ```
 
 > [!note]
-> You should see DHCP request served by `dnsmasq`.
+> You should see DHCP request served by `dnsmasq`. You can check the ip with `ipconfig` and also try to ping the attack machine `ping 10.13.37.100`.
 
 Mount the exposed SMB share:
 ```
@@ -200,7 +200,7 @@ boot configuration then fall back to the served Linux environment.
 
 Login with the `root` user, no password is needed. Follow the instructions
 printed in the logon message.  Replace `XYZ` with device file representing
-your encrypted BitLocker volume:
+your encrypted BitLocker volume (use `lsblk -f`):
 
 ```
 exploit && ./mount.sh /dev/XYZ && ls mnt
