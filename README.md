@@ -87,12 +87,8 @@ particular exploitation strategy or prepare both scenarios:
 make
 ```
 
-This requires a working Docker setup. For the actual exploitation you will
-also need:
-
- - dnsmasq
- - impacket's smbserver.py
- - GDB with Python support (for the WinPE-based attack strategy)
+This requires a working Docker setup. For the WinPE-based attack strategy
+you also need GDB with Python support.
 
 ### Linux Initramfs Generation
 
