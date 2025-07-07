@@ -41,7 +41,7 @@ A TPM 2.0 is needed to support the PCR7 binding
 - In Windows open *Device Manager > Security Devices* and check the TPM properties
 - Check in the UEFI settings, something like: *Security > Security Chip > Security Chip Selection*.
 	
->[!warning]
+> [!warning]
 > Changing the TPM mode will clear the stored keys, therefore:
 > 1. Boot Windows, disable BitLocker: `manage-bde -protectors -disable C:`
 > 2. Boot into UEFI/BIOS, enable the TPMv2.0 security chip
@@ -60,7 +60,7 @@ PS> manage-bde -protectors -get c:
 > [!warning]
 > If the PCR register `4` is included, this attack will not work.
 
->[!note]
+> [!note]
 > To make a device intentionally vulnerable a local GPO can be configured:
 > 1. Temporarily suspend BitLcoker protection: `manage-bde -protectors -disable C:`
 > 2. Create a GPO using `gpedit.msc`
@@ -111,6 +111,15 @@ Similarly, the following command will generate a bootable WinPE environment:
 ```
 make winpe
 ```
+
+> [!note]
+> By default this extracts a WinPE environment from the latest Windows 11
+> version. Depending on your hardware, older images might yield better
+> results.
+> 
+> See the related [GitHub issue](https://github.com/martanne/bitpixie/issues/3)
+> for more information and share your own experience on the
+> [corresponding wiki page](https://github.com/martanne/bitpixie/wiki#exploitation-log).
 
 ### SMB Server
 
@@ -170,6 +179,8 @@ cd %TEMP%
 
 ### Linux-based Exploitation
 
+[bitpixie-linux.webm](https://github.com/user-attachments/assets/255b83e0-22a3-4442-9f15-ab3093e2450c)
+
 Copy the attack script to the temporary directory:
 ```
 copy S:\exploit-linux.bat .
@@ -210,7 +221,13 @@ exploit && ./mount.sh /dev/XYZ && ls mnt
 
 > [!warning]
 > The WinPE-based approach seems to be less reliable than its Linux-based
-> counterpart.
+> counterpart. Exploitation success seems to vary based on the involved
+> hardware and the used WinPE image.
+>
+> More information can be found in the following
+> [GitHub issue](https://github.com/martanne/bitpixie/issues/3).
+
+[bitpixie-winpe.webm](https://github.com/user-attachments/assets/c9431354-7c3f-4a22-8fc8-2c300cc77410)
 
 For the WinPE-based exploitation strategy, two BCD files will be needed.
 
@@ -291,22 +308,9 @@ manage-bde -unlock C: -RecoveryPassword 123456-789012-345678-901234-567890-12345
 ```
 
 > [!warning]
-> Unfortunately, the running WinPE instance does not have a working
-> BitLocker setup. It is [possible to use a customized version](./winpe/Customize-WinPE.ps1),
-> but this is currently not integrated in the automated build process and
-> successful exploitation sofar used the default image.
->
-> At this point I would suggest to once more boot into the native recovery
-> environment where you should be able to unlock the disk.
-
-## Success Stories
-
-Windows 11 devices which were successfully exploited, after manually enabling the TCP stack in the UEFI settings:
-
-- Lenovo ThinkPad T460s 20FAA01100
-- Lenovo ThinkPad X280 20KES6C42B
-- Lenovo ThinkPad X1 Carbon Gen 9 20XW008FMZ
-- Lenovo Thinkpad X1 Carbon Gen 11 21HMCTO1WW
-
-> [!note]
-> This is a non-exhaustive list.
+> Depending on the used WinPE image, BitLocker support might not be
+> available.
+> 
+> In that case it is recommended to once more boot into the native
+> recovery environment where the disk can be unlocked through the GUI
+> by providing the recovery password.
