@@ -1,5 +1,9 @@
 # Bitpixie
 
+> [!note]
+> See also the corresponding [Compass Security Blog post](https://blog.compass-security.com/2025/05/bypassing-bitlocker-encryption-bitpixie-poc-and-winpe-edition/)
+> for a high-level overview.
+
 The [bitpixie vulnerability](https://github.com/Wack0/bitlocker-attacks?tab=readme-ov-file#bitpixie)
 existed since October 2005, was discovered in August 2022 and publicly [disclosed in February 2023 by
 Rairii](https://web.archive.org/web/20230501000759/https://haqueers.com/@Rairii/109817927668949732)
